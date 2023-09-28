@@ -1,0 +1,45 @@
+*&---------------------------------------------------------------------*
+*& Report ZRPS
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZRPS.
+
+DATA: lv_random TYPE i,
+      lv_compc TYPE c.
+
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-001.
+
+            PARAMETERS:  lv_chose TYPE c LENGTH 1,
+               lv_unum TYPE c LENGTH 4.
+
+  SELECTION-SCREEN END OF BLOCK b1.
+
+
+
+
+  DO lv_unum * 5 TIMES.
+  lv_random = ( ( sy-index * sy-datum MOD 100 ) MOD 3 ) + 1.
+ENDDO.
+
+CASE lv_random.
+  WHEN '1'.
+    lv_compc = 'R'.
+  WHEN '2'.
+    lv_compc = 'P'.
+  WHEN '3'.
+    lv_compc = 'S'.
+ENDCASE.
+
+WRITE: / 'Ваш выбор: ', lv_chose,
+       / 'Выбор компьютера: ', lv_compc.
+
+IF ( lv_chose = 'R' AND lv_compc = 'S' ) OR
+       ( lv_chose = 'S' AND lv_compc = 'P' ) OR
+       ( lv_chose = 'P' AND lv_compc = 'R' ).
+      WRITE: / 'Вы выиграли!'.
+    ELSEIF lv_chose = lv_compc.
+      WRITE: / 'Ничья!'.
+    ELSE.
+      WRITE: / 'Компьютер выиграл!'.
+    ENDIF.
